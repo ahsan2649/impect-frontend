@@ -1,7 +1,16 @@
+import ConnectedClients from "#/components/home/ConnectedClients";
+import PendingClients from "#/components/home/PendingClients";
+import UserGreeting from "#/components/home/UserGreeting";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/")({ component: App });
+export const Route = createFileRoute("/")({ component: HomeView });
 
-function App() {
-  return <div>Hello, World!</div>;
+function HomeView() {
+  return (
+    <>
+      <UserGreeting />
+      <PendingClients />
+      <ConnectedClients />
+    </>
+  );
 }

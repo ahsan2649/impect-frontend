@@ -1,0 +1,41 @@
+export default function FeedbacksFilter() {
+  return (
+    <form className="flex gap-1 my-2">
+      <input
+        className="btn"
+        type="checkbox"
+        name="feedback-types"
+        aria-label="Text"
+        defaultChecked
+      />
+      <input
+        className="btn"
+        type="checkbox"
+        name="feedback-types"
+        aria-label="Joint"
+        defaultChecked
+      />
+      <input
+        className="btn"
+        type="checkbox"
+        name="feedback-types"
+        aria-label="Audio"
+        defaultChecked
+      />
+      <input
+        className="btn"
+        type="checkbox"
+        name="feedback-types"
+        aria-label="Video"
+        defaultChecked
+      />
+      <input
+        className="btn"
+        type="checkbox"
+        name="feedback-types"
+        aria-label="Command"
+        defaultChecked
+      />
+    </form>
+  );
+}
