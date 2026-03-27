@@ -11,7 +11,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <div className="">
+    <div>
       <QuickAccess />
 
       <div className="px-5">
@@ -19,14 +19,9 @@ function RootComponent() {
       </div>
       <TanStackDevtools
         config={{
-          position: "bottom-right",
+          position: "bottom-left",
         }}
-        plugins={[
-          {
-            name: "TanStack Router",
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-        ]}
+        plugins={[]}
       />
     </div>
   );
