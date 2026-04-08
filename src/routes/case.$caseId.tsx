@@ -1,6 +1,6 @@
+import { caseQueryOptions } from "#/queries";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import ky from "ky";
 
 export const Route = createFileRoute("/case/$caseId")({
   component: CaseView,
@@ -9,15 +9,7 @@ export const Route = createFileRoute("/case/$caseId")({
 function CaseView() {
   const { caseId } = Route.useParams();
 
-  const caseQuery = useQuery({
-    queryKey: ["case", caseId],
-    queryFn: async () => {
-      const data = await ky
-        .get(`http://localhost:8080/api/case/${caseId}`)
-        .json();
-      return data;
-    },
-  });
+  const caseQuery = useQuery(caseQueryOptions(caseId));
 
   return (
     <div>

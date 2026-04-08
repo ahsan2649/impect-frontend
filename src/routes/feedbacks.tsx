@@ -1,3 +1,8 @@
+import {
+  api,
+  feedbacksQueryOptions,
+  feedbackTypesQueryOptions,
+} from "#/queries";
 import FeedbacksFilter from "#/components/feedbacks/FeedbacksFilter";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
@@ -18,24 +23,8 @@ export const Route = createFileRoute("/feedbacks")({
 function FeedbacksView() {
   const modalRef = useRef(null);
 
-  const allFeedbacksQuery = useQuery({
-    queryKey: ["feedbacks"],
-    queryFn: async () => {
-      const data = await ky.get("http://localhost:8080/api/feedbacks").json();
-      return data;
-    },
-    initialData: [],
-  });
-
-  const feedbackTypesQuery = useQuery({
-    queryKey: ["feedback-types"],
-    queryFn: async () => {
-      const data = await ky
-        .get("http://localhost:8080/api/feedback-types")
-        .json();
-      return data;
-    },
-  });
+  const allFeedbacksQuery = useQuery(feedbacksQueryOptions);
+  const feedbackTypesQuery = useQuery(feedbackTypesQueryOptions);
 
   const feedbackLevels = {
     0: "Neutral",
