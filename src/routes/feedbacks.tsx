@@ -4,7 +4,7 @@ import {
   feedbackTypesQueryOptions,
 } from "#/queries";
 import FeedbacksFilter from "#/components/feedbacks/FeedbacksFilter";
-import { useQuery } from "@tanstack/react-query";
+import { mutationOptions, useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import ky from "ky";
 import {
@@ -15,17 +15,28 @@ import {
   LucidePlus,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import AddFeedbackModal from "#/components/feedbacks/AddFeedbackModal";
 
 export const Route = createFileRoute("/feedbacks")({
   component: FeedbacksView,
 });
 
 function FeedbacksView() {
-  const modalRef = useRef(null);
-
   const allFeedbacksQuery = useQuery(feedbacksQueryOptions);
   const feedbackTypesQuery = useQuery(feedbackTypesQueryOptions);
 
+  const addFeedbackMutationOptions = mutationOptions({
+    mutationFn: (data) =>
+      api.post("feedbacks", {
+        json: {
+          value: data.value,
+          description: data.description,
+          feedbackimpect: data.level,
+          feedbacktype: data.feedbackType,
+        },
+      }),
+  });
+  const addFeedbackMutation = useMutation(addFeedbackMutationOptions);
   const feedbackLevels = {
     0: "Neutral",
     1: "Positive",
@@ -56,69 +67,7 @@ function FeedbacksView() {
 
   return (
     <>
-      <dialog ref={modalRef} className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Add Feedback</h3>
-          <fieldset className="fieldset w-full">
-            <legend className="fieldset-legend">Description</legend>
-            <input
-              type="text"
-              className="input w-full"
-              placeholder="Type here"
-            />
-            <p className="label">
-              A title for the feedback to remember what it does
-            </p>
-          </fieldset>
-          <fieldset className="fieldset w-full">
-            <legend className="fieldset-legend">Feedback Level</legend>
-            <select defaultValue="Neutral" className="select w-full">
-              <option>Good</option>
-              <option>Neutral</option>
-              <option>Warning</option>
-              <option>Bad</option>
-            </select>
-            <span className="label"></span>
-          </fieldset>
-          <fieldset className="fieldset w-full">
-            <legend className="fieldset-legend">Feedback Type</legend>
-            <select defaultValue="Text" className="select w-full">
-              <option>Text</option>
-              <option>Joint</option>
-              <option>Audio</option>
-              <option>Video</option>
-              <option>Command</option>
-            </select>
-            <span className="label"></span>
-          </fieldset>
-          <fieldset className="fieldset w-full">
-            <legend className="fieldset-legend">Value</legend>
-            <input
-              type="text"
-              className="input w-full"
-              placeholder="Type here"
-            />
-            <p className="label">The value to process in the feedback</p>
-          </fieldset>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                ✕
-              </button>
-            </form>
-            <button className="btn btn-primary">Send</button>
-          </div>
-        </div>
-      </dialog>
-      <div className="fab">
-        <button
-          onClick={() => modalRef.current.showModal()}
-          className="tooltip-left tooltip btn btn-lg btn-circle btn-primary"
-          data-tip="Add Feedback"
-        >
-          <LucidePlus />
-        </button>
-      </div>
+      <AddFeedbackModal onSubmit={(data) => addFeedbackMutation.mutate(data)} />
       {feedbackTypesQuery.isSuccess ? (
         <FeedbacksFilter
           feedbackTypes={feedbackTypesQuery.data as []}
