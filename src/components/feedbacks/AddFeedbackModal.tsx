@@ -1,11 +1,12 @@
 import { LucidePlus } from "lucide-react";
 import { useRef, useState } from "react";
+import JointsSelect from "./JointsSelect";
 
 export default function AddFeedbackModal(props: { onSubmit: Function }) {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   const [description, setDescription] = useState("");
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState<string>("");
   const [level, setLevel] = useState("1");
   const [feedbackType, setFeedbackType] = useState("1");
 
@@ -57,12 +58,16 @@ export default function AddFeedbackModal(props: { onSubmit: Function }) {
           </fieldset>
           <fieldset className="fieldset w-full">
             <legend className="fieldset-legend">Value</legend>
-            <input
-              type="text"
-              className="input w-full"
-              placeholder="Type here"
-              onChange={(e) => setValue(e.target.value)}
-            />
+            {feedbackType == "2" ? (
+              <JointsSelect setValue={setValue} />
+            ) : (
+              <input
+                type="text"
+                className="input w-full"
+                placeholder="Type here"
+                onChange={(e) => setValue(e.target.value)}
+              />
+            )}
             <p className="label">The value to process in the feedback</p>
           </fieldset>
           <div className="modal-action">
