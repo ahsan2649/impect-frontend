@@ -1,11 +1,10 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackDevtools } from "@tanstack/react-devtools";
 
 import "../styles.css";
 import QuickAccess from "#/components/app/QuickAccess";
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext()({
   component: RootComponent,
 });
 

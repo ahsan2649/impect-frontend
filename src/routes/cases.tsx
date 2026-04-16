@@ -1,15 +1,19 @@
 import { casesQueryOptions, clientsQueryOptions } from "#/queries";
 import CaseOverview from "#/components/cases/CaseOverview";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/cases")({
   component: CasesView,
+  loader: ({ params, context }) => {
+    context.queryClient.ensureQueryData(casesQueryOptions);
+    context.queryClient.ensureQueryData(clientsQueryOptions);
+  },
 });
 
 function CasesView() {
-  const casesQuery = useQuery(casesQueryOptions);
-  const clientsQuery = useQuery(clientsQueryOptions);
+  const casesQuery = useSuspenseQuery(casesQueryOptions);
+  const clientsQuery = useSuspenseQuery(clientsQueryOptions);
 
   return (
     <>

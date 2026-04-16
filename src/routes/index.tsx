@@ -2,18 +2,22 @@ import { casesQueryOptions, clientsQueryOptions } from "#/queries";
 import ConnectedClients from "#/components/home/ConnectedClients";
 import PendingClients from "#/components/home/PendingClients";
 import UserGreeting from "#/components/home/UserGreeting";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 // TODO: Add Logo
 
 export const Route = createFileRoute("/")({
+  loader: ({ params, context }) => {
+    context.queryClient.ensureQueryData(clientsQueryOptions);
+    context.queryClient.ensureQueryData(casesQueryOptions);
+  },
   component: HomeView,
 });
 
 function HomeView() {
-  const casesQuery = useQuery(casesQueryOptions);
-  const clientsQuery = useQuery(clientsQueryOptions);
+  const casesQuery = useSuspenseQuery(casesQueryOptions);
+  const clientsQuery = useSuspenseQuery(clientsQueryOptions);
 
   return (
     <>

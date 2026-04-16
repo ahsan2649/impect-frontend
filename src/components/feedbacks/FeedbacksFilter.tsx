@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 export default function FeedbacksFilter(props: {
   feedbackTypes: { name: string; id: string }[];
   setValues;
