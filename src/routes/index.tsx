@@ -8,7 +8,7 @@ import { createFileRoute } from "@tanstack/react-router";
 // TODO: Add Logo
 
 export const Route = createFileRoute("/")({
-  loader: ({ params, context }) => {
+  loader: ({ context }) => {
     context.queryClient.ensureQueryData(clientsQueryOptions);
     context.queryClient.ensureQueryData(casesQueryOptions);
   },

@@ -1,6 +1,7 @@
 import { LucidePlus } from "lucide-react";
 import { useRef, useState } from "react";
 import JointsSelect from "./JointsSelect";
+import { Dialog } from "../app/Dialog";
 
 export default function AddFeedbackModal(props: { onSubmit: Function }) {
   const modalRef = useRef<HTMLDialogElement>(null);
@@ -12,9 +13,15 @@ export default function AddFeedbackModal(props: { onSubmit: Function }) {
 
   return (
     <>
-      <dialog ref={modalRef} className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Add Feedback</h3>
+      <Dialog
+        actionLabel="Create Feedback"
+        buttonAction={() =>
+          props.onSubmit({ description, value, feedbackType, level })
+        }
+        ref={modalRef}
+        title="Add Feedback"
+      >
+        <>
           <fieldset className="fieldset w-full">
             <legend className="fieldset-legend">Description</legend>
             <input
@@ -70,23 +77,8 @@ export default function AddFeedbackModal(props: { onSubmit: Function }) {
             )}
             <p className="label">The value to process in the feedback</p>
           </fieldset>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                ✕
-              </button>
-            </form>
-            <button
-              className="btn btn-primary"
-              onClick={() =>
-                props.onSubmit({ description, value, feedbackType, level })
-              }
-            >
-              Send
-            </button>
-          </div>
-        </div>
-      </dialog>
+        </>
+      </Dialog>
       <div className="fab">
         <button
           onClick={() => modalRef.current?.showModal()}
