@@ -29,11 +29,6 @@ function CaseView() {
 
   // Queries
   const caseQuery = useSuspenseQuery(caseQueryOptions(caseId));
-  const allFeedbacksQuery = useSuspenseQuery(feedbacksQueryOptions);
-
-  // Mutation
-  const addLevelMutation = useMutation(addLevelMutationOptions);
-  const assignFeedbacksMutation = useMutation({});
 
   // Refs
   const sectionModalRef = useRef<HTMLDialogElement>(null);
@@ -45,7 +40,6 @@ function CaseView() {
   const [sectionId, setSectionId] = useState<string>("");
 
   // Functions
-
   const OpenLevelModal = () => levelModalRef.current?.showModal();
   const OpenSectionModal = (levelId: string) => {
     setLevelId(levelId);

@@ -7,10 +7,13 @@ export function Dialog(props: {
   actionLabel: string;
   children: ReactElement;
   hasAction?: boolean;
+  widthClass?: string;
 }) {
+  const width = props.widthClass ? props.widthClass : "";
+
   return (
     <dialog className="modal" ref={props.ref}>
-      <div className="modal-box">
+      <div className={"modal-box " + width}>
         <h3 className="font-bold text-lg">{props.title}</h3>
         <>{props.children}</>
         <div className="modal-action">

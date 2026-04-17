@@ -105,3 +105,20 @@ export const addSectionMutationOptions = mutationOptions({
       },
     }),
 });
+
+export const assignFeedbackMutationOptions = mutationOptions({
+  mutationFn: (data: {
+    feedbacks: number[];
+    caseId: number;
+    levelId: number;
+    sectionId: number;
+  }) =>
+    api.post("section-feedbacks", {
+      json: {
+        feedbacks: data.feedbacks,
+        caseId: data.caseId,
+        levelId: data.levelId,
+        sectionId: data.sectionId,
+      },
+    }),
+});
