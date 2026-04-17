@@ -10,6 +10,7 @@ export const Route = createFileRoute("/logs")({
 });
 
 function LogsView() {
+  // Queries
   const allLogsQuery = useSuspenseQuery(logsQueryOptions);
 
   return (

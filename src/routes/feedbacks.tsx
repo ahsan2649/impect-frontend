@@ -6,15 +6,11 @@ import {
 import FeedbacksFilter from "#/components/feedbacks/FeedbacksFilter";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  CircleAlert,
-  CircleArrowDown,
-  CircleArrowUp,
-  CircleMinus,
-} from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import AddFeedbackModal from "#/components/feedbacks/AddFeedbackModal";
 import { FeedbackCard } from "../components/feedbacks/FeedbackCard";
+import { LucidePlus } from "lucide-react";
+import { FloatingActionButton } from "#/components/Core/FloatingActionButton";
 
 export const Route = createFileRoute("/feedbacks")({
   loader: ({ context }) => {
@@ -24,28 +20,23 @@ export const Route = createFileRoute("/feedbacks")({
   component: FeedbacksView,
 });
 
-export function feedbackBadgeFromLevel(level: number) {
-  switch (level) {
-    case 0:
-      return <CircleMinus size={24} />;
-    case 1:
-      return <CircleArrowUp size={24} />;
-    case 2:
-      return <CircleAlert size={24} />;
-    case 3:
-      return <CircleArrowDown size={24} />;
-  }
-}
-
 function FeedbacksView() {
+  // Queries
   const allFeedbacksQuery = useSuspenseQuery(feedbacksQueryOptions);
   const feedbackTypesQuery = useSuspenseQuery(feedbackTypesQueryOptions);
+
+  // Mutations
   const addFeedbackMutation = useMutation(addFeedbackMutationOptions);
 
+  // Refs
+  const addFeedbackModalRef = useRef<HTMLDialogElement>(null);
+
+  // States
   const [filteredFeedbackTypes, setFilteredFeedbackTypes] = useState<string[]>(
     [],
   );
 
+  // Memos
   const filteredFeedbacks = useMemo(
     () =>
       (allFeedbacksQuery.data as []).filter((f) =>
@@ -56,6 +47,7 @@ function FeedbacksView() {
     [feedbackTypesQuery],
   );
 
+  // Effects
   useEffect(() => {
     if (feedbackTypesQuery.isSuccess) {
       setFilteredFeedbackTypes(() => feedbackTypesQuery.data as []);
@@ -64,7 +56,6 @@ function FeedbacksView() {
 
   return (
     <>
-      <AddFeedbackModal onSubmit={(data) => addFeedbackMutation.mutate(data)} />
       <FeedbacksFilter
         feedbackTypes={feedbackTypesQuery.data as []}
         setValues={setFilteredFeedbackTypes}
@@ -83,6 +74,20 @@ function FeedbacksView() {
           />
         ))}
       </div>
+
+      {/* Modals */}
+      <AddFeedbackModal
+        onSubmit={(data) => addFeedbackMutation.mutate(data)}
+        ref={addFeedbackModalRef}
+      />
+
+      {/* FloatingActionButton */}
+      <FloatingActionButton
+        dataTip="Add Feedback"
+        buttonAction={() => addFeedbackModalRef.current?.showModal()}
+      >
+        <LucidePlus />
+      </FloatingActionButton>
     </>
   );
 }

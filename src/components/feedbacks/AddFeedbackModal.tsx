@@ -1,11 +1,12 @@
 import { LucidePlus } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, type Ref } from "react";
 import JointsSelect from "./JointsSelect";
-import { Dialog } from "../app/Dialog";
+import { Dialog } from "../Core/Dialog";
 
-export default function AddFeedbackModal(props: { onSubmit: Function }) {
-  const modalRef = useRef<HTMLDialogElement>(null);
-
+export default function AddFeedbackModal(props: {
+  onSubmit: Function;
+  ref: Ref<HTMLDialogElement>;
+}) {
   const [description, setDescription] = useState("");
   const [value, setValue] = useState<string>("");
   const [level, setLevel] = useState("1");
@@ -14,11 +15,12 @@ export default function AddFeedbackModal(props: { onSubmit: Function }) {
   return (
     <>
       <Dialog
+        hasAction
         actionLabel="Create Feedback"
         buttonAction={() =>
           props.onSubmit({ description, value, feedbackType, level })
         }
-        ref={modalRef}
+        ref={props.ref}
         title="Add Feedback"
       >
         <>
@@ -79,15 +81,6 @@ export default function AddFeedbackModal(props: { onSubmit: Function }) {
           </fieldset>
         </>
       </Dialog>
-      <div className="fab">
-        <button
-          onClick={() => modalRef.current?.showModal()}
-          className="tooltip-left tooltip btn btn-lg btn-circle btn-primary"
-          data-tip="Add Feedback"
-        >
-          <LucidePlus />
-        </button>
-      </div>
     </>
   );
 }

@@ -6,6 +6,7 @@ export function Dialog(props: {
   buttonAction: Function;
   actionLabel: string;
   children: ReactElement;
+  hasAction?: boolean;
 }) {
   return (
     <dialog className="modal" ref={props.ref}>
@@ -18,14 +19,18 @@ export function Dialog(props: {
               ✕
             </button>{" "}
           </form>
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              props.buttonAction();
-            }}
-          >
-            {props.actionLabel}
-          </button>
+          {props.hasAction ? (
+            <button
+              className="btn btn-primary"
+              onClick={() => {
+                props.buttonAction();
+              }}
+            >
+              {props.actionLabel}
+            </button>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </dialog>

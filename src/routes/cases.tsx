@@ -12,6 +12,7 @@ export const Route = createFileRoute("/cases")({
 });
 
 function CasesView() {
+  // Queries
   const casesQuery = useSuspenseQuery(casesQueryOptions);
   const clientsQuery = useSuspenseQuery(clientsQueryOptions);
 

@@ -1,9 +1,9 @@
-import { Divide, LucideDelete, LucidePlus } from "lucide-react";
-import { FeedbackCard } from "../feedbacks/FeedbackCard";
+import { LucideDelete, LucidePlus } from "lucide-react";
 
 export function CaseLevel(props: {
   level: any;
   openSectionAddModal: Function;
+  openFeedbackModal: Function;
 }) {
   return (
     <>
@@ -12,7 +12,7 @@ export function CaseLevel(props: {
         <button
           className="btn"
           onClick={() => {
-            props.openSectionAddModal();
+            props.openSectionAddModal(props.level.id);
           }}
         >
           Add Section
@@ -29,7 +29,12 @@ export function CaseLevel(props: {
                     className="tooltip tooltip-left"
                     data-tip="Assign Feedbacks"
                   >
-                    <button className="btn btn-circle">
+                    <button
+                      className="btn btn-circle"
+                      onClick={() =>
+                        props.openFeedbackModal(props.level.id, section.id)
+                      }
+                    >
                       <LucidePlus></LucidePlus>
                     </button>
                   </div>

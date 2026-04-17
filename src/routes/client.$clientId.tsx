@@ -12,6 +12,7 @@ export const Route = createFileRoute("/client/$clientId")({
 function RouteComponent() {
   const { clientId } = Route.useParams();
 
+  // Queries
   const clientQuery = useSuspenseQuery(clientQueryOptions(clientId));
 
   return (

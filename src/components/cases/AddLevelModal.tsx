@@ -1,23 +1,27 @@
-import { LucidePlus } from "lucide-react";
-import { useRef, useState } from "react";
-import { Dialog } from "../app/Dialog";
+import { useState, type Ref } from "react";
+import { Dialog } from "../Core/Dialog";
+import { addLevelMutationOptions } from "#/queries";
+import { useMutation } from "@tanstack/react-query";
 
-export default function AddLevelModal(props: {
-  onSubmit: Function;
+export default function AddLevelDialog(props: {
   caseId: string;
+  ref: Ref<HTMLDialogElement>;
 }) {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const addLevelMutation = useMutation(addLevelMutationOptions);
+
   const [levelName, setLevelName] = useState<string>("");
+
+  const AddLevel = () =>
+    addLevelMutation.mutate({ levelName, caseId: parseInt(props.caseId) });
 
   return (
     <>
       <Dialog
+        hasAction
         actionLabel="Create Level"
-        buttonAction={() =>
-          props.onSubmit({ caseId: props.caseId, levelName: levelName })
-        }
+        buttonAction={AddLevel}
         title="Add Level"
-        ref={modalRef}
+        ref={props.ref}
       >
         <fieldset className="fieldset w-full">
           <legend className="fieldset-legend">Description</legend>
@@ -29,15 +33,6 @@ export default function AddLevelModal(props: {
           />
         </fieldset>
       </Dialog>
-      <div className="fab">
-        <button
-          onClick={() => modalRef.current?.showModal()}
-          className="tooltip-left tooltip btn btn-lg btn-circle btn-primary"
-          data-tip="Add Level"
-        >
-          <LucidePlus />
-        </button>
-      </div>
     </>
   );
 }
