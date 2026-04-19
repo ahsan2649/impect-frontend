@@ -1,10 +1,7 @@
 import { useState, type Ref } from "react";
 import { Dialog } from "../Core/Dialog";
-import {
-  assignFeedbackMutationOptions,
-  feedbacksQueryOptions,
-} from "#/queries";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { assignFeedbackMutationOptions, caseQueryOptions, feedbacksQueryOptions } from "#/queries";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 
 export function AssignFeedbackModal(props: {
   ref: Ref<HTMLDialogElement>;
@@ -12,6 +9,8 @@ export function AssignFeedbackModal(props: {
   caseId: number;
   sectionId: number;
 }) {
+  const queryClient = useQueryClient();
+
   const allFeedbacksQuery = useSuspenseQuery(feedbacksQueryOptions);
   const assignFeedbacksMutation = useMutation(assignFeedbackMutationOptions);
 
@@ -27,14 +26,16 @@ export function AssignFeedbackModal(props: {
     }
   }
 
-  const AssignFeedbacks = () => {
-    assignFeedbacksMutation.mutate({
+  async function AssignFeedbacks() {
+    await assignFeedbacksMutation.mutateAsync({
       feedbacks: selectedFeedbacks.map((f) => parseInt(f)),
       caseId: props.caseId,
       levelId: props.levelId,
       sectionId: props.sectionId,
     });
-  };
+    await queryClient.invalidateQueries(caseQueryOptions(props.caseId.toString()));
+    props.ref.current.close();
+  }
   return (
     <Dialog
       ref={props.ref}

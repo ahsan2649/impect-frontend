@@ -4,7 +4,7 @@ import {
   feedbackTypesQueryOptions,
 } from "#/queries";
 import FeedbacksFilter from "#/components/feedbacks/FeedbacksFilter";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import AddFeedbackModal from "#/components/feedbacks/AddFeedbackModal";
@@ -25,24 +25,17 @@ function FeedbacksView() {
   const allFeedbacksQuery = useSuspenseQuery(feedbacksQueryOptions);
   const feedbackTypesQuery = useSuspenseQuery(feedbackTypesQueryOptions);
 
-  // Mutations
-  const addFeedbackMutation = useMutation(addFeedbackMutationOptions);
-
   // Refs
   const addFeedbackModalRef = useRef<HTMLDialogElement>(null);
 
   // States
-  const [filteredFeedbackTypes, setFilteredFeedbackTypes] = useState<string[]>(
-    [],
-  );
+  const [filteredFeedbackTypes, setFilteredFeedbackTypes] = useState<string[]>([]);
 
   // Memos
   const filteredFeedbacks = useMemo(
     () =>
       (allFeedbacksQuery.data as []).filter((f) =>
-        filteredFeedbackTypes.includes(
-          feedbackTypesQuery.data.find((t) => t.id == f.feedbacktype),
-        ),
+        filteredFeedbackTypes.includes(feedbackTypesQuery.data.find((t) => t.id == f.feedbacktype)),
       ),
     [feedbackTypesQuery],
   );
@@ -67,19 +60,13 @@ function FeedbacksView() {
             description={f["description"]}
             value={f["value"]}
             level={f["feedbackimpect"]}
-            feedbacktype={
-              feedbackTypesQuery.data.find((t) => t.id == f["feedbacktype"])
-                .name
-            }
+            feedbacktype={feedbackTypesQuery.data.find((t) => t.id == f["feedbacktype"]).name}
           />
         ))}
       </div>
 
       {/* Modals */}
-      <AddFeedbackModal
-        onSubmit={(data) => addFeedbackMutation.mutate(data)}
-        ref={addFeedbackModalRef}
-      />
+      <AddFeedbackModal ref={addFeedbackModalRef} />
 
       {/* FloatingActionButton */}
       <FloatingActionButton

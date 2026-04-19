@@ -1,16 +1,10 @@
-import { Dialog } from "#/components/Core/Dialog";
 import { FloatingActionButton } from "#/components/Core/FloatingActionButton";
 import AddLevelDialog from "#/components/cases/AddLevelModal";
 import { AddSectionModal } from "#/components/cases/AddSectionModal";
 import { AssignFeedbackModal } from "#/components/cases/AssignFeedbackModal";
 import { CaseLevel } from "#/components/cases/CaseLevel";
-import {
-  addLevelMutationOptions,
-  addSectionMutationOptions,
-  caseQueryOptions,
-  feedbacksQueryOptions,
-} from "#/queries";
-import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { caseQueryOptions, feedbacksQueryOptions } from "#/queries";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { LucidePlus } from "lucide-react";
 import { useRef, useState } from "react";

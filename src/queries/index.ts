@@ -46,9 +46,7 @@ export const caseQueryOptions = (caseId: string) => {
   return queryOptions({
     queryKey: ["case", caseId],
     queryFn: async () => {
-      const data = await ky
-        .get(`http://localhost:8080/api/case/${caseId}`)
-        .json();
+      const data = await ky.get(`http://localhost:8080/api/case/${caseId}`).json();
       return data;
     },
   });
@@ -65,12 +63,7 @@ export const clientQueryOptions = (clientId: string) => {
 };
 
 export const addFeedbackMutationOptions = mutationOptions({
-  mutationFn: (data: {
-    value: string;
-    description: string;
-    level: number;
-    feedbackType: number;
-  }) =>
+  mutationFn: (data: { value: string; description: string; level: number; feedbackType: number }) =>
     api.post("feedbacks", {
       json: {
         value: data.value,
@@ -92,11 +85,7 @@ export const addLevelMutationOptions = mutationOptions({
 });
 
 export const addSectionMutationOptions = mutationOptions({
-  mutationFn: (data: {
-    sectionName: string;
-    caseId: number;
-    levelId: number;
-  }) =>
+  mutationFn: (data: { sectionName: string; caseId: number; levelId: number }) =>
     api.post("section", {
       json: {
         caseId: data.caseId,
@@ -107,12 +96,7 @@ export const addSectionMutationOptions = mutationOptions({
 });
 
 export const assignFeedbackMutationOptions = mutationOptions({
-  mutationFn: (data: {
-    feedbacks: number[];
-    caseId: number;
-    levelId: number;
-    sectionId: number;
-  }) =>
+  mutationFn: (data: { feedbacks: number[]; caseId: number; levelId: number; sectionId: number }) =>
     api.post("section-feedbacks", {
       json: {
         feedbacks: data.feedbacks,

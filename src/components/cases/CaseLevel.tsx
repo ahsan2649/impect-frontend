@@ -25,23 +25,15 @@ export function CaseLevel(props: {
               <summary className="collapse-title flex justify-between">
                 <span>{section.section_name}</span>
                 <div className="flex gap-2">
-                  <div
-                    className="tooltip tooltip-left"
-                    data-tip="Assign Feedbacks"
-                  >
+                  <div className="tooltip tooltip-left" data-tip="Assign Feedbacks">
                     <button
                       className="btn btn-circle"
-                      onClick={() =>
-                        props.openFeedbackModal(props.level.id, section.id)
-                      }
+                      onClick={() => props.openFeedbackModal(props.level.id, section.id)}
                     >
                       <LucidePlus></LucidePlus>
                     </button>
                   </div>
-                  <div
-                    className="tooltip tooltip-left"
-                    data-tip="Delete Section"
-                  >
+                  <div className="tooltip tooltip-left" data-tip="Delete Section">
                     <button className="btn btn-circle">
                       <LucideDelete></LucideDelete>
                     </button>
@@ -50,8 +42,8 @@ export function CaseLevel(props: {
               </summary>
               <div className="collapse-content">
                 <div className="flex flex-wrap gap-2">
-                  {section.feedbacks.map((feedback) => (
-                    <span className="badge" key={feedback.id}>
+                  {section.feedbacks.map((feedback, idx) => (
+                    <span className="badge" key={idx}>
                       {feedback.description}
                     </span>
                   ))}
