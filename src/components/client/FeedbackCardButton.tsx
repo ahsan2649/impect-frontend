@@ -1,4 +1,5 @@
 import { CircleMinus, CircleArrowUp, CircleAlert, CircleArrowDown } from "lucide-react";
+import type { MouseEventHandler } from "react";
 
 function feedbackBadgeFromLevel(level: number) {
   switch (level) {
@@ -13,9 +14,15 @@ function feedbackBadgeFromLevel(level: number) {
   }
 }
 
-export function FeedbackCard(props: { feedback: Feedback }) {
+export function FeedbackCardButton(props: {
+  feedback: Feedback;
+  onClick: MouseEventHandler<HTMLDivElement>;
+}) {
   return (
-    <div className="card bg-base-200 shadow-sm aspect-square">
+    <div
+      className="card bg-base-200 hover:bg-base-300 active:bg-base-100 cursor-pointer shadow-sm aspect-square"
+      onClick={props.onClick}
+    >
       <div className="card-body h-full">
         <div className="card-title line-clamp-1 text-ellipsis">{props.feedback.description}</div>
         <span>{props.feedback.value}</span>

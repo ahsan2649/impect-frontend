@@ -24,7 +24,6 @@ export default function (props: {
       viewBox="0 0 47.333098 120.72199"
       id="svg1"
       height={"100%"}
-      preserveAspectRatio="true"
     >
       {props.joints.map((j) => (
         <path
@@ -32,9 +31,7 @@ export default function (props: {
           d={j.d}
           id={j.id}
           style={
-            props.hoveredJoint === j.id || props.selectedJoints.includes(j.id)
-              ? altStyle
-              : style
+            props.hoveredJoint === j.id || props.selectedJoints.includes(j.id) ? altStyle : style
           }
           onMouseEnter={() => props.setHoveredJoint(j.id)}
           onMouseLeave={() => props.setHoveredJoint("")}

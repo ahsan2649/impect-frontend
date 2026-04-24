@@ -1,17 +1,24 @@
 import { useState, type Ref } from "react";
 import JointsSelect from "./JointsSelect";
 import { Dialog } from "../Core/Dialog";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addFeedbackMutationOptions, feedbacksQueryOptions } from "#/queries/feedbacks";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  addFeedbackMutationOptions,
+  feedbackLevelsQueryOptions,
+  feedbacksQueryOptions,
+  feedbackTypesQueryOptions,
+} from "#/queries/feedbacks";
 
 export default function AddFeedbackModal(props: { ref: Ref<HTMLDialogElement> }) {
   const queryClient = useQueryClient();
 
   const [description, setDescription] = useState("");
   const [value, setValue] = useState<string>("");
-  const [level, setLevel] = useState("1");
-  const [feedbackType, setFeedbackType] = useState("1");
+  const [level, setLevel] = useState<number>();
+  const [feedbackType, setFeedbackType] = useState<number>();
 
+  const feedbackTypesQuery = useQuery(feedbackTypesQueryOptions);
+  const feedbackLevelsQuery = useQuery(feedbackLevelsQueryOptions);
   const addFeedbackMutation = useMutation(addFeedbackMutationOptions);
 
   async function addFeedback(data) {
@@ -41,36 +48,29 @@ export default function AddFeedbackModal(props: { ref: Ref<HTMLDialogElement> })
           </fieldset>
           <fieldset className="fieldset w-full">
             <legend className="fieldset-legend">Feedback Level</legend>
-            <select
-              defaultValue={level}
-              className="select w-full"
-              onChange={(e) => setLevel(e.target.value)}
-            >
-              <option value="1">Good</option>
-              <option value="2">Neutral</option>
-              <option value="3">Warning</option>
-              <option value="4">Bad</option>
+            <select className="select w-full" onChange={(e) => setLevel(e.target.value)}>
+              {feedbackLevelsQuery.data?.map((level) => (
+                <option value={level.id} key={level.id}>
+                  {level.name}
+                </option>
+              ))}
             </select>
             <span className="label"></span>
           </fieldset>
           <fieldset className="fieldset w-full">
             <legend className="fieldset-legend">Feedback Type</legend>
-            <select
-              defaultValue={feedbackType}
-              className="select w-full"
-              onChange={(e) => setFeedbackType(e.target.value)}
-            >
-              <option value="1">Text</option>
-              <option value="2">Video</option>
-              <option value="3">Joint</option>
-              <option value="4">Command</option>
-              <option value="5">Audio</option>
+            <select className="select w-full" onChange={(e) => setFeedbackType(e.target.value)}>
+              {feedbackTypesQuery.data?.map((feedbackType) => (
+                <option value={feedbackType.id} key={feedbackType.id}>
+                  {feedbackType.name}
+                </option>
+              ))}
             </select>
             <span className="label"></span>
           </fieldset>
           <fieldset className="fieldset w-full">
             <legend className="fieldset-legend">Value</legend>
-            {feedbackType == "2" ? (
+            {feedbackType == 3 ? (
               <JointsSelect setValue={setValue} />
             ) : (
               <input

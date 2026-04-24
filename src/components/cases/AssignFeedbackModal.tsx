@@ -35,6 +35,7 @@ export function AssignFeedbackModal(props: {
       section_id: props.section_id,
     });
     await queryClient.invalidateQueries(caseQueryOptions(props.case_id));
+    setSelectedFeedbacks([]);
     props.ref.current.close();
   }
   return (

@@ -53,7 +53,7 @@ function CaseView() {
       <h1 className="text-xl my-4">{caseQuery.data?.name} Case</h1>
 
       {/* Body */}
-      <ul className="grid grid-cols-2 gap-3">
+      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {caseQuery.data?.levels?.map((level) => (
           <li className="card bg-base-300 p-4" key={level.id}>
             <CaseLevel
