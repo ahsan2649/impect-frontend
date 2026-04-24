@@ -1,7 +1,8 @@
-import { casesQueryOptions, clientsQueryOptions } from "#/queries";
 import ConnectedClients from "#/components/home/ConnectedClients";
 import PendingClients from "#/components/home/PendingClients";
 import UserGreeting from "#/components/home/UserGreeting";
+import { casesQueryOptions } from "#/queries/cases";
+import { clientsQueryOptions } from "#/queries/clients";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -9,7 +10,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   loader: ({ context }) => {
-    context.queryClient.ensureQueryData(clientsQueryOptions);
     context.queryClient.ensureQueryData(casesQueryOptions);
   },
   component: HomeView,
@@ -24,10 +24,7 @@ function HomeView() {
     <>
       <UserGreeting />
       <PendingClients />
-      <ConnectedClients
-        cases={casesQuery.data as []}
-        clients={clientsQuery.data as []}
-      />
+      <ConnectedClients cases={casesQuery.data as []} />
     </>
   );
 }

@@ -19,9 +19,9 @@ export default function ChangeSectionDialog(props: {
         <fieldset className="fieldset w-full">
           <legend className="fieldset-legend">Section Name</legend>
           <select className="select w-full" onChange={(e) => props.setSection(e.target.value)}>
-            {props.options.map((option) => (
-              <option value={option} key={option}>
-                {option.section_name}
+            {props.options.map((section) => (
+              <option value={section} key={section}>
+                {section.name}
               </option>
             ))}
           </select>

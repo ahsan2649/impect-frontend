@@ -1,4 +1,4 @@
-import { logsQueryOptions } from "#/queries";
+import { logsQueryOptions } from "#/queries/logs";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -15,8 +15,8 @@ function LogsView() {
 
   return (
     <div className="p-2">
-      {(allLogsQuery.data as []).map((log) => (
-        <p key={log["id"]}>{JSON.stringify(log)}</p>
+      {allLogsQuery.data.map((log) => (
+        <p key={log.id}>{JSON.stringify(log)}</p>
       ))}
     </div>
   );

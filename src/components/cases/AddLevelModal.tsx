@@ -1,17 +1,17 @@
 import { useState, type Ref } from "react";
 import { Dialog } from "../Core/Dialog";
-import { addLevelMutationOptions, caseQueryOptions } from "#/queries";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addLevelMutationOptions, caseQueryOptions } from "#/queries/cases";
 
-export default function AddLevelDialog(props: { caseId: string; ref: Ref<HTMLDialogElement> }) {
+export default function AddLevelDialog(props: { case_id: number; ref: Ref<HTMLDialogElement> }) {
   const addLevelMutation = useMutation(addLevelMutationOptions);
 
   const queryClient = useQueryClient();
   const [levelName, setLevelName] = useState<string>("");
 
   async function AddLevel() {
-    await addLevelMutation.mutateAsync({ levelName, caseId: parseInt(props.caseId) });
-    await queryClient.invalidateQueries(caseQueryOptions(props.caseId));
+    await addLevelMutation.mutateAsync({ name: levelName, case_id: props.case_id });
+    await queryClient.invalidateQueries(caseQueryOptions(props.case_id));
     props.ref.current.close();
   }
 

@@ -2,7 +2,7 @@ import { useState, type Ref } from "react";
 import JointsSelect from "./JointsSelect";
 import { Dialog } from "../Core/Dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addFeedbackMutationOptions, feedbacksQueryOptions } from "#/queries";
+import { addFeedbackMutationOptions, feedbacksQueryOptions } from "#/queries/feedbacks";
 
 export default function AddFeedbackModal(props: { ref: Ref<HTMLDialogElement> }) {
   const queryClient = useQueryClient();

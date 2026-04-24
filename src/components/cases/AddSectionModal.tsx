@@ -1,11 +1,11 @@
 import { useState, type Ref } from "react";
 import { Dialog } from "../Core/Dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addSectionMutationOptions, caseQueryOptions } from "#/queries";
+import { addSectionMutationOptions, caseQueryOptions } from "#/queries/cases";
 
 export function AddSectionModal(props: {
-  caseId: number;
-  levelId: number;
+  case_id: number;
+  level_id: number;
   ref: Ref<HTMLDialogElement>;
 }) {
   const queryClient = useQueryClient();
@@ -14,12 +14,12 @@ export function AddSectionModal(props: {
   const addSectionMutation = useMutation(addSectionMutationOptions);
   async function AddSection() {
     await addSectionMutation.mutateAsync({
-      caseId: props.caseId,
-      levelId: props.levelId,
-      sectionName: sectionName,
+      case_id: props.case_id,
+      level_id: props.level_id,
+      name: sectionName,
     });
 
-    await queryClient.invalidateQueries(caseQueryOptions(props.caseId.toString()));
+    await queryClient.invalidateQueries(caseQueryOptions(props.case_id));
     props.ref.current.close();
   }
   return (

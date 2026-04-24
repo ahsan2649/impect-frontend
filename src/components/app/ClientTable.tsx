@@ -1,10 +1,4 @@
-export default function ClientTable({
-  title,
-  clients,
-}: {
-  title: string;
-  clients: [];
-}) {
+export default function ClientTable({ title, clients }: { title: string; clients: Client[] }) {
   return (
     <div>
       <table className="table table-zebra my-4">
@@ -22,11 +16,11 @@ export default function ClientTable({
         <tbody>
           {clients && clients.length ? (
             clients.map((client) => (
-              <tr key={client["id"]}>
-                <td>{client["id"]}</td>
-                <td>{client["port"]}</td>
-                <td>{client["ipaddress"]}</td>
-                <td>{client["connected_at"]}</td>
+              <tr key={client.id}>
+                <td>{client.id}</td>
+                <td>{client.port}</td>
+                <td>{client.ipaddress}</td>
+                <td>{client.connected_at}</td>
               </tr>
             ))
           ) : (

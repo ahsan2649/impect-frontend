@@ -1,22 +1,23 @@
 import { useState, type Ref } from "react";
 import { Dialog } from "../Core/Dialog";
-import { assignFeedbackMutationOptions, caseQueryOptions, feedbacksQueryOptions } from "#/queries";
 import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { assignFeedbackMutationOptions, caseQueryOptions } from "#/queries/cases";
+import { feedbacksQueryOptions } from "#/queries/feedbacks";
 
 export function AssignFeedbackModal(props: {
   ref: Ref<HTMLDialogElement>;
-  levelId: number;
-  caseId: number;
-  sectionId: number;
+  level_id: number;
+  case_id: number;
+  section_id: number;
 }) {
   const queryClient = useQueryClient();
 
   const allFeedbacksQuery = useSuspenseQuery(feedbacksQueryOptions);
   const assignFeedbacksMutation = useMutation(assignFeedbackMutationOptions);
 
-  const [selectedFeedbacks, setSelectedFeedbacks] = useState<string[]>([]);
+  const [selectedFeedbacks, setSelectedFeedbacks] = useState<number[]>([]);
 
-  function toggleFeedback(Feedback: string) {
+  function toggleFeedback(Feedback: number) {
     if (selectedFeedbacks.includes(Feedback)) {
       const newValue = selectedFeedbacks.filter((f) => f !== Feedback);
       setSelectedFeedbacks(newValue);
@@ -28,12 +29,12 @@ export function AssignFeedbackModal(props: {
 
   async function AssignFeedbacks() {
     await assignFeedbacksMutation.mutateAsync({
-      feedbacks: selectedFeedbacks.map((f) => parseInt(f)),
-      caseId: props.caseId,
-      levelId: props.levelId,
-      sectionId: props.sectionId,
+      feedbacks: selectedFeedbacks,
+      case_id: props.case_id,
+      level_id: props.level_id,
+      section_id: props.section_id,
     });
-    await queryClient.invalidateQueries(caseQueryOptions(props.caseId.toString()));
+    await queryClient.invalidateQueries(caseQueryOptions(props.case_id));
     props.ref.current.close();
   }
   return (

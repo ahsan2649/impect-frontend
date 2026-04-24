@@ -19,9 +19,9 @@ export default function ChangeLevelDialog(props: {
         <fieldset className="fieldset w-full">
           <legend className="fieldset-legend">Level Name</legend>
           <select className="select w-full" onChange={(e) => props.setLevel(e.target.value)}>
-            {props.options.map((option) => (
-              <option value={option} key={option}>
-                {option.level_name}
+            {props.options.map((level) => (
+              <option value={level} key={level}>
+                {level.name}
               </option>
             ))}
           </select>
