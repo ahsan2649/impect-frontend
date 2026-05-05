@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LogsRouteImport } from './routes/logs'
 import { Route as FeedbacksRouteImport } from './routes/feedbacks'
-import { Route as CasesRouteImport } from './routes/cases'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ClientClient_idRouteImport } from './routes/client.$client_id'
-import { Route as CaseCase_idRouteImport } from './routes/case.$case_id'
+import { Route as CasesIndexRouteImport } from './routes/cases/index'
+import { Route as ClientsClient_idRouteImport } from './routes/clients/$client_id'
+import { Route as CasesCase_idRouteImport } from './routes/cases/$case_id'
 
 const LogsRoute = LogsRouteImport.update({
   id: '/logs',
@@ -26,86 +26,86 @@ const FeedbacksRoute = FeedbacksRouteImport.update({
   path: '/feedbacks',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CasesRoute = CasesRouteImport.update({
-  id: '/cases',
-  path: '/cases',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClientClient_idRoute = ClientClient_idRouteImport.update({
-  id: '/client/$client_id',
-  path: '/client/$client_id',
+const CasesIndexRoute = CasesIndexRouteImport.update({
+  id: '/cases/',
+  path: '/cases/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CaseCase_idRoute = CaseCase_idRouteImport.update({
-  id: '/case/$case_id',
-  path: '/case/$case_id',
+const ClientsClient_idRoute = ClientsClient_idRouteImport.update({
+  id: '/clients/$client_id',
+  path: '/clients/$client_id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CasesCase_idRoute = CasesCase_idRouteImport.update({
+  id: '/cases/$case_id',
+  path: '/cases/$case_id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/cases': typeof CasesRoute
   '/feedbacks': typeof FeedbacksRoute
   '/logs': typeof LogsRoute
-  '/case/$case_id': typeof CaseCase_idRoute
-  '/client/$client_id': typeof ClientClient_idRoute
+  '/cases/$case_id': typeof CasesCase_idRoute
+  '/clients/$client_id': typeof ClientsClient_idRoute
+  '/cases/': typeof CasesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cases': typeof CasesRoute
   '/feedbacks': typeof FeedbacksRoute
   '/logs': typeof LogsRoute
-  '/case/$case_id': typeof CaseCase_idRoute
-  '/client/$client_id': typeof ClientClient_idRoute
+  '/cases/$case_id': typeof CasesCase_idRoute
+  '/clients/$client_id': typeof ClientsClient_idRoute
+  '/cases': typeof CasesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/cases': typeof CasesRoute
   '/feedbacks': typeof FeedbacksRoute
   '/logs': typeof LogsRoute
-  '/case/$case_id': typeof CaseCase_idRoute
-  '/client/$client_id': typeof ClientClient_idRoute
+  '/cases/$case_id': typeof CasesCase_idRoute
+  '/clients/$client_id': typeof ClientsClient_idRoute
+  '/cases/': typeof CasesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/cases'
     | '/feedbacks'
     | '/logs'
-    | '/case/$case_id'
-    | '/client/$client_id'
+    | '/cases/$case_id'
+    | '/clients/$client_id'
+    | '/cases/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/cases'
     | '/feedbacks'
     | '/logs'
-    | '/case/$case_id'
-    | '/client/$client_id'
+    | '/cases/$case_id'
+    | '/clients/$client_id'
+    | '/cases'
   id:
     | '__root__'
     | '/'
-    | '/cases'
     | '/feedbacks'
     | '/logs'
-    | '/case/$case_id'
-    | '/client/$client_id'
+    | '/cases/$case_id'
+    | '/clients/$client_id'
+    | '/cases/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CasesRoute: typeof CasesRoute
   FeedbacksRoute: typeof FeedbacksRoute
   LogsRoute: typeof LogsRoute
-  CaseCase_idRoute: typeof CaseCase_idRoute
-  ClientClient_idRoute: typeof ClientClient_idRoute
+  CasesCase_idRoute: typeof CasesCase_idRoute
+  ClientsClient_idRoute: typeof ClientsClient_idRoute
+  CasesIndexRoute: typeof CasesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -124,13 +124,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeedbacksRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cases': {
-      id: '/cases'
-      path: '/cases'
-      fullPath: '/cases'
-      preLoaderRoute: typeof CasesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -138,18 +131,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/client/$client_id': {
-      id: '/client/$client_id'
-      path: '/client/$client_id'
-      fullPath: '/client/$client_id'
-      preLoaderRoute: typeof ClientClient_idRouteImport
+    '/cases/': {
+      id: '/cases/'
+      path: '/cases'
+      fullPath: '/cases/'
+      preLoaderRoute: typeof CasesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/case/$case_id': {
-      id: '/case/$case_id'
-      path: '/case/$case_id'
-      fullPath: '/case/$case_id'
-      preLoaderRoute: typeof CaseCase_idRouteImport
+    '/clients/$client_id': {
+      id: '/clients/$client_id'
+      path: '/clients/$client_id'
+      fullPath: '/clients/$client_id'
+      preLoaderRoute: typeof ClientsClient_idRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cases/$case_id': {
+      id: '/cases/$case_id'
+      path: '/cases/$case_id'
+      fullPath: '/cases/$case_id'
+      preLoaderRoute: typeof CasesCase_idRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -157,11 +157,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CasesRoute: CasesRoute,
   FeedbacksRoute: FeedbacksRoute,
   LogsRoute: LogsRoute,
-  CaseCase_idRoute: CaseCase_idRoute,
-  ClientClient_idRoute: ClientClient_idRoute,
+  CasesCase_idRoute: CasesCase_idRoute,
+  ClientsClient_idRoute: ClientsClient_idRoute,
+  CasesIndexRoute: CasesIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

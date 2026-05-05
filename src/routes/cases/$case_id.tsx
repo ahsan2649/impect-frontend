@@ -10,10 +10,12 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LucidePlus } from "lucide-react";
 import { useRef, useState } from "react";
 
-export const Route = createFileRoute("/case/$case_id")({
+export const Route = createFileRoute("/cases/$case_id")({
   component: CaseView,
   loader: ({ params, context }) => {
-    context.queryClient.ensureQueryData(caseQueryOptions(parseInt(params.case_id)));
+    context.queryClient.ensureQueryData(
+      caseQueryOptions(parseInt(params.case_id)),
+    );
     context.queryClient.ensureQueryData(feedbacksQueryOptions);
   },
 });

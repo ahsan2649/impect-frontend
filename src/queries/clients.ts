@@ -4,7 +4,7 @@ import { api } from ".";
 export const clientsQueryOptions = queryOptions({
   queryKey: ["clients"],
   queryFn: async () => {
-    const data = await api.get("clients").json();
+    const data = await api.get("connected-clients").json();
     return data;
   },
 });

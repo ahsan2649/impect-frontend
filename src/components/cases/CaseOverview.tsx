@@ -6,7 +6,7 @@ export default function CaseOverview(props: { case: Case }) {
       <div className="text-xl">{props.case.name}</div>
       <div className="py-2">{props.case.description}</div>
       <div className="text-lg">Levels</div>
-      <a role="button" href={"/case/" + props.case.id} className="btn">
+      <a role="button" href={"/cases/" + props.case.id} className="btn">
         Manage Levels and Sections
       </a>
       <ClientTable title="Connected Clients" clients={props.case.clients!} />

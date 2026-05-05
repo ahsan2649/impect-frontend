@@ -1,4 +1,4 @@
-export default function PendingClients() {
+export default function PendingClients({ clients }: { clients: Client[] }) {
   return (
     <div className="py-2">
       <h3 className="text-lg">Pending Clients</h3>
@@ -11,11 +11,21 @@ export default function PendingClients() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
+          {clients?.length ? (
+            clients.map((client) => (
+              <tr key={client.id}>
+                <td>{client.id}</td>
+                <td>{client.port}</td>
+                <td>{client.ipaddress}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

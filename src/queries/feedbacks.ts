@@ -29,13 +29,18 @@ export const feedbacksQueryOptions = queryOptions({
 });
 
 export const addFeedbackMutationOptions = mutationOptions({
-  mutationFn: (data: { value: string; description: string; level: number; feedbackType: number }) =>
+  mutationFn: (data: {
+    value: string;
+    description: string;
+    level: number;
+    feedbackType: number;
+  }) =>
     api.post("feedbacks", {
       json: {
         value: data.value,
         description: data.description,
-        feedbackimpect: data.level,
-        feedbacktype: data.feedbackType,
+        feedback_level_id: data.level,
+        feedback_type_id: data.feedbackType,
       },
     }),
 });

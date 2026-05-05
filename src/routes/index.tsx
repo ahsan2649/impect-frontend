@@ -23,7 +23,7 @@ function HomeView() {
   return (
     <>
       <UserGreeting />
-      <PendingClients />
+      <PendingClients clients={clientsQuery.data as []} />
       <ConnectedClients cases={casesQuery.data as []} />
     </>
   );

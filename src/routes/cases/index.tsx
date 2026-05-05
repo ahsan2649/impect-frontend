@@ -4,7 +4,7 @@ import { clientsQueryOptions } from "#/queries/clients";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/cases")({
+export const Route = createFileRoute("/cases/")({
   component: CasesView,
   loader: ({ params, context }) => {
     context.queryClient.ensureQueryData(casesQueryOptions);

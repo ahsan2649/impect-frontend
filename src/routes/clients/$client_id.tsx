@@ -3,12 +3,11 @@ import ChangeSectionDialog from "#/components/client/ChangeSectionModal";
 import { FeedbackCardButton } from "#/components/client/FeedbackCardButton";
 import { api } from "#/queries";
 import { clientQueryOptions } from "#/queries/clients";
-import { feedbackLevelsQueryOptions } from "#/queries/feedbacks";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
-export const Route = createFileRoute("/client/$client_id")({
+export const Route = createFileRoute("/clients/$client_id")({
   loader: ({ params, context }) => {
     context.queryClient.ensureQueryData(clientQueryOptions(params.client_id));
   },
@@ -34,6 +33,7 @@ function RouteComponent() {
 
   function StartSession() {
     sendCommand({
+      command: "StartSession",
       client_id: client_id,
 
       case_id: clientQuery.data.case?.id,
@@ -52,7 +52,9 @@ function RouteComponent() {
       level_id: level_id,
     });
 
-    setCurrentSection(currentLevel.sections.find((section) => section.id == section_id));
+    setCurrentSection(
+      currentLevel.sections.find((section) => section.id == section_id),
+    );
     changeSectionDialogRef.current?.close();
   }
 
@@ -66,7 +68,9 @@ function RouteComponent() {
       level_id: level_id,
     });
 
-    const level = clientQuery.data.case.levels.find((level) => level.id == level_id);
+    const level = clientQuery.data.case.levels.find(
+      (level) => level.id == level_id,
+    );
     setCurrentLevel(level);
     setCurrentSection(level?.sections[0]);
     changeLevelDialogRef.current?.close();
@@ -89,12 +93,24 @@ function RouteComponent() {
   return (
     <>
       <h2 className="text-2xl my-4">{clientQuery.data.case?.name}</h2>
-      <div className="grid grid-cols-2 w-fit gap-4 items-center">
-        <button className="btn" onClick={() => changeLevelDialogRef.current.showModal()}>
+      <div className="grid grid-cols-3 w-fit gap-4 items-center">
+        <button
+          className="btn"
+          onClick={() => changeLevelDialogRef.current.showModal()}
+        >
           Change Level
         </button>
         Current Level : {currentLevel?.name ?? "None"}
-        <button className="btn" onClick={() => changeSectionDialogRef.current.showModal()}>
+        <button
+          className="btn row-span-2 h-full"
+          onClick={() => StartSession()}
+        >
+          Start Session
+        </button>
+        <button
+          className="btn"
+          onClick={() => changeSectionDialogRef.current.showModal()}
+        >
           Change Section
         </button>
         Current Section : {currentSection?.name ?? "None"}
@@ -102,7 +118,11 @@ function RouteComponent() {
 
       <div className="grid gap-4 rounded-sm grid-cols-4 lg:grid-cols-8 my-4">
         {currentSection?.feedbacks?.map((f) => (
-          <FeedbackCardButton feedback={f} key={f.id} onClick={() => SendFeedback(f)} />
+          <FeedbackCardButton
+            feedback={f}
+            key={f.id}
+            onClick={() => SendFeedback(f)}
+          />
         ))}
       </div>
 
